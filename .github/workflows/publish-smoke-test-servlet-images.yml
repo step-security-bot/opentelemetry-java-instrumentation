@@ -15,6 +15,11 @@ jobs:
     outputs:
       tag: ${{ steps.set-tag.outputs.TAG }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
+        with:
+          egress-policy: audit
+
       - id: set-tag
         name: Set tag
         run: echo "TAG=$(date '+%Y%m%d').$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
@@ -43,6 +48,11 @@ jobs:
             smoke-test-server: websphere
       fail-fast: false
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
+        with:
+          egress-policy: audit
+
       - name: Support long paths
         run: git config --system core.longpaths true
         if: matrix.os == 'windows-latest'
